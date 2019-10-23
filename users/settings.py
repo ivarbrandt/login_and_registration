@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.The_Wall',
     'apps.login_and_reg',
     'django.contrib.admin',
     'django.contrib.auth',

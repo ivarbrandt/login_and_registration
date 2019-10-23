@@ -19,27 +19,18 @@ def register(request):
         user = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=pw_hash)
         request.session['user_id'] = user.id
         messages.success(request, "User successfully added!")
-        return redirect('/success')
+        return redirect('/wall')
 
 def login(request):
     print("login method is running")
     user = User.objects.filter(email=request.POST['email'])
-    if user:
+    if len(user):
         logged_user = user[0]
         if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
             request.session['user_id'] = logged_user.id
-            return redirect('/success')
+            return redirect('/wall')
         else:
             return redirect('/')
-    else:
-        return redirect('/')
-
-def successful_login_page(request):
-    if 'user_id' in request.session:
-        context = {
-            "user": User.objects.get(id=request.session['user_id'])
-        }
-        return render(request, 'login_and_reg/success.html', context)
     else:
         return redirect('/')
 
